@@ -3,5 +3,5 @@
 # By Enrick3344
 
 # Here will be all the worlds that hunger will be disabled in. you can edit it from here or with the command in game.
-Hunger_Disabled:
+Hunger_Disabled: []
 ...
