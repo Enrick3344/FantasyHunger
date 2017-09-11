@@ -36,10 +36,6 @@ class Main extends PluginBase implements Listener {
             if(isset($args[0])){
             	switch($args[0]){
 			case "on":{
-                  		if(!$sender instanceof Player){
-					$sender->sendMessage("§5>§c Please run this command in-game.");
-					break;
-				}
                   		$hunger = $this->getConfig()->get("Hunger_Disabled");
                  		$world = $sender->getLevel()->getName();
                   
@@ -61,10 +57,6 @@ class Main extends PluginBase implements Listener {
                 	}
                  	break;
                 	case "off":{
-                  		if(!$sender instanceof Player){
-					$sender->sendMessage("§5>§c Please run this command in-game.");
-					break;
-				}
                   		$hunger = $this->getConfig()->get("Hunger_Disabled");
                   		$world = $sender->getLevel()->getName();
                   
