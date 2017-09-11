@@ -4,4 +4,13 @@ version: 0.1
 api: [3.0.0-ALPHA7]
 author: "Enrick3344"
 main: FantasyHunger\Main
+
+commands:
+  hunger:
+    description: "Usage: /hunger <on|off>"
+    permission: fantasyhunger.hunger
+permissions:
+  fantasyhunger.hunger:
+    default: op
+    description: "Allows you to use /hunger"
 ...
