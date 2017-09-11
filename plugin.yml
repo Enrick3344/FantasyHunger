@@ -9,8 +9,14 @@ commands:
   hunger:
     description: "Usage: /hunger <on|off>"
     permission: fantasyhunger.hunger
+  feed:
+    description: "Usage: /feed <player>"
+    permission: fantasyhunger.feed
 permissions:
   fantasyhunger.hunger:
     default: op
     description: "Allows you to use /hunger"
+  fantasyhunger.feed:
+    default: op
+    description: "Allows you to use /feed"
 ...
