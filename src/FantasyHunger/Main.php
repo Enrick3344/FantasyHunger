@@ -27,6 +27,10 @@ class Main extends PluginBase implements Listener {
   }
   
   public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
+	  if(!$sender instanceof Player){
+		$sender->sendMessage("§5>§c Please run this command in-game.");  
+		  return false;
+	  }
     switch($command->getName()){
        	case "hunger":{
             if(isset($args[0])){
