@@ -12,6 +12,7 @@ use pocketmine\utils\Config;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\Player;
+use pocketmine\level\particle\HeartParticle;
 
 class Main extends PluginBase implements Listener {
 
@@ -78,7 +79,33 @@ class Main extends PluginBase implements Listener {
             	}
            	 return true;
           }
-    }       
+	    case "feed":{
+		if ($sender instanceof Player) {
+        		if (count($args) != 0) {
+				$name = $args[0];
+				$pl = $this->plugin->getServer()->getPlayer($name);
+               		 if($pl instanceof Player){ 
+				 $pl->setFood(20);
+				 $pl->getLevel()->addParticle(new HeartParticle($player->add(0, 2), 4));
+				 $sender->sendMessage("§l§5>§r§b You've successfully feed " . $pl);
+				 $player->sendMessage("§l§5>§b You've been fed!");
+				 return true;
+			 }else{
+				$sender->sendMessage("§l§dNotice§5>§r§c That player isn't online!");
+				 return true;
+			 }
+	    }else{
+		$sender->sendMessage("§l§5>§b You've been fed!");
+		$pl->setFood(20);
+		$pl->getLevel()->addParticle(new HeartParticle($player->add(0, 2), 4));	
+		return true;
+	     }
+		}else{
+			$sender->sendMessage("§l§5>§c You cannot feed the console!");
+			return true;
+		}
+	    }
+    }
   }
 	
 	
