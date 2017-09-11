@@ -2,6 +2,7 @@
 
 namespace FantasyHunger;
 
+use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
@@ -27,60 +28,70 @@ class Main extends PluginBase implements Listener {
   
   public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
     switch($command->getName()){
-       		case "hunger":{
+       	case "hunger":{
             if(isset($args[0])){
-              switch($args[0]){
+            	switch($args[0]){
 			case "on":{
                   		if(!$sender instanceof Player){
 					$sender->sendMessage("§5>§c Please run this command in-game.");
 					break;
 				}
                   		$hunger = $this->getConfig()->get("Hunger_Disabled");
-                 		 $world = $sender->getLevel()->getName();
+                 		$world = $sender->getLevel()->getName();
                   
-                 		 if(in_array($world, $hunger)){
+                 		if(in_array($world, $hunger)){
                     			$array = $this->getConfig()->get("Hunger_Disabled");
 					$rm = $sender->getLevel()->getName();
-								    $config = [];
-								    foreach($array as $value) {
-									     if($value != $rm) {
-										    $config[] = $value;
-									     }
-								     }
-								    $this->getConfig()->set("Hunger_Disabled", $config);
-								    $this->getConfig()->save();
-                    $sender->sendMessage("§5>§d You've sucessfully Enabled Hunger on level " . $world);
-                  }else{
-                   $sender->sendMessage("§5>§c Hunger is already enabled on level " . $world);
-                  }
-                }
-                  break;
-                case "off":{
-                  if(!$sender instanceof Player){
-								    $sender->sendMessage("§5>§c Please run this command in-game.");
-								    break;
-							    }
-                  $hunger = $this->getConfig()->get("Hunger_Disabled");
-                  $world = $sender->getLevel()->getName();
+					$config = [];
+					foreach($array as $value) {
+						if($value != $rm) {
+							$config[] = $value;
+						}
+					}
+					$this->getConfig()->set("Hunger_Disabled", $config);
+					$this->getConfig()->save();
+                    			$sender->sendMessage("§5>§d You've sucessfully Enabled Hunger on level " . $world);
+                  		}else{
+                  			 $sender->sendMessage("§5>§c Hunger is already enabled on level " . $world);
+                  		}
+                	}
+                 	break;
+                	case "off":{
+                  		if(!$sender instanceof Player){
+					$sender->sendMessage("§5>§c Please run this command in-game.");
+					break;
+				}
+                  		$hunger = $this->getConfig()->get("Hunger_Disabled");
+                  		$world = $sender->getLevel()->getName();
                   
-                  if(in_array($world, $hunger)){
-                    $sender->sendMessage("§5>§c Hunger is already disabled on level " . $world);
-                    break;
-                  }
-                  $array = $this->getConfig()->get("Hunger_Disabled");
-								  $config = $array;
-								  $config[] = $sender->getLevel()->getName();
-								  $this->getConfig()->set("Hunger_Disabled", $config);
-								  $this->getConfig()->save();
-                  $sender->sendMessage("§5>§d You've sucessfully Disabled Hunger on level " . $world);
-                }
-              }
-            }else{
-             $sender->sendMessage("§l§dUsage§5>§r§b /hunger <on|off>"); 
-              return false;
-            }
-            return true;
+                  		if(in_array($world, $hunger)){
+                    			$sender->sendMessage("§5>§c Hunger is already disabled on level " . $world);
+                    			break;
+                  		}	
+                 		$array = $this->getConfig()->get("Hunger_Disabled");
+				$config = $array;
+				$config[] = $sender->getLevel()->getName();
+				$this->getConfig()->set("Hunger_Disabled", $config);
+				$this->getConfig()->save();
+                 		$sender->sendMessage("§5>§d You've sucessfully Disabled Hunger on level " . $world);
+                	}
+              	}
+            	}else{
+             		$sender->sendMessage("§l§dUsage§5>§r§b /hunger <on|off>"); 
+              		return false;
+            	}
+           	 return true;
           }
     }       
   }
+	
+	
+	public function onExhaust(PlayerExhaustEvent $event){
+		$player = $event->getPlayer();
+		$world = $player->getLevel()->getName();
+		$hunger = $this->getConfig()->get("Hunger_Disabled");
+		  if(in_array($world, $hunger)){
+             		$event->setCancelled(true);
+	   	 }
+	}
 }
